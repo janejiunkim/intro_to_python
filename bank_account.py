@@ -57,11 +57,11 @@ class OverdraftAccount(BankAccount):
         self.overdraft_penalty = 40
     
     def withdraw(self, amount):
-        self.balance -= amount
-        if (self.balance < 0):
+        if (self.balance - amount < 0):
             self.balance -= self.overdraft_penalty
             return False
-        else: 
+        else:
+            self.balance -= amount 
             return self.balance
     
     def accumulate_interest(self):
@@ -70,7 +70,7 @@ class OverdraftAccount(BankAccount):
         else:
             self.balance = self.balance + (self.balance * self.interest_rate)
             return self.balance
-            
+
 overdraft_account = OverdraftAccount()
 overdraft_account.deposit(12)
 print("Overdraft account has ${}".format(overdraft_account.balance))
